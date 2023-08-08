@@ -1,0 +1,51 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.Scanner;
+
+class AlphabetOccur {
+    public static void main(String[] args) {
+       
+       Scanner scanner = new Scanner(System.in);
+       System.out.print("Please enter the required string: ");
+        String userInput = scanner.nextLine();
+       userInput=userInput.toLowerCase();
+       int[] occurs = new int[26];
+       
+       for(int i=0;i<userInput.length(); i++)
+       {
+           char alpha=userInput.charAt(i);
+           System.out.println(alpha);
+           if (Character.isLetter(alpha)) {  
+                int index1 = alpha - 'a'; 
+                occurs[index1]++;
+            }
+       }
+       
+       
+       
+       
+       
+       
+        System.out.println(occurs);
+        char maxoccuralpha = 'a';
+        int maxoccur = occurs[0];
+        for (int j = 1; j < occurs.length(); j++) {
+            if (occurs[j] > maxoccur) {
+                maxoccur = occurs[j];
+                maxoccuralpha = (char) ('a' + j);
+            }
+        }
+       for(int k=0;k<occurs.length(); k++)
+       {
+           char alphabet = (char) ('a' + k);
+            System.out.println(alphabet + ": " + occurs[k]);
+            
+       }
+       
+          System.out.println("Alphabet with maximum occurrence: " + maxoccuralpha + " (" + maxoccur + " occurrences)");
+       
+       
+       
+       
+    }
+}
