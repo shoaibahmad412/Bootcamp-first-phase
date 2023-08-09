@@ -1,0 +1,101 @@
+package BrowerTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.applet.Applet;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class urltest {
+
+	public urltest() {
+		// TODO Auto-generated constructor stub
+	}
+	 private final static Logger log = LoggerFactory.getLogger(Applet.class);
+	public static void main(String[] args) {
+		
+		log.error("Success");
+		
+		
+		
+		 WebDriver driver;
+		WebDriverManager.chromedriver().setup();
+		
+		 driver = new ChromeDriver();
+		
+		
+		 //Accessing the website by hitting the particular url
+		driver.get("https://omayo.blogspot.in/");
+		String pageTitle= driver.getTitle();
+		System.out.println("Title of the web page: " + pageTitle);
+		
+		//Writing about introduction  in the field 1
+		WebElement textinput= driver.findElement(By.id("ta1"));
+		textinput.sendKeys(("My name is Shoaib Ahmad"));
+		
+		//Getting the text data from the field 2
+		
+		WebElement element = driver.findElement(By.xpath("//*[@id=\"HTML11\"]/div[1]/textarea"));
+        System.out.println("Element Text: " + element.getText());
+		
+		//getting the data from field 3
+      
+        WebElement field3 = driver.findElement(By.xpath("//*[@id=\"HTML30\"]"));
+        System.out.println("Element Text:\n " + field3.getText());
+		
+        //deleting data from the fields
+        
+        element.clear();
+        
+        //Rewriting the description about me.
+        
+        element.sendKeys(("I am really hard-working and work oriented boy."));
+        
+        //Passing the username and password entry to field 
+        
+        
+        WebElement username= driver.findElement(By.xpath("//*[@id=\"HTML31\"]/div[1]/form/input[1]"));
+        
+        username.sendKeys(("shoaibawan"));
+        
+        //For Password field
+        WebElement password= driver.findElement(By.xpath("//*[@id=\"HTML31\"]/div[1]/form/input[2]"));
+        
+        password.sendKeys(("@ZEESSHAN"));
+        
+        //Iframe1 Accessability
+        
+       
+        driver.switchTo().frame("iframe1");
+        System.out.println("Test Case Passed(switched to iframe1) ");
+        driver.switchTo().defaultContent();
+        driver.switchTo().frame("iframe2");
+       System.out.println("switched to iframe2");
+       driver.switchTo().defaultContent();
+       
+        //Passing the username
+        
+        WebElement username1= driver.findElement(By.xpath("//*[@id=\"HTML42\"]/div[1]/form/input[1]"));
+        username1.sendKeys(("shoaibawan"));
+        
+        //For Password field
+        
+        WebElement password1= driver.findElement(By.name("pswrd"));
+        password1.sendKeys(("@ZEESSHAN"));
+        //Accessing to login button
+        
+        WebElement loginbutton= driver.findElement(By.xpath("//*[@id=\"HTML42\"]/div[1]/form/input[3]"));
+        loginbutton.click();
+		//WebElement field2 = driver.findElement(By.className("text-area"));
+        //System.out.println("Element Text: " + field2.getText());
+		
+		
+	}
+
+}
