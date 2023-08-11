@@ -1,0 +1,262 @@
+package secondtest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import dev.failsafe.internal.util.Assert;
+
+import java.applet.Applet;
+import java.util.List;
+import java.util.Set;
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class secondtest {
+
+	public secondtest() {
+		
+	}
+	private final static Logger log = LoggerFactory.getLogger(Applet.class);
+	public static void main(String[] args) {
+		
+		log.error("Success");
+		
+		
+		
+		 WebDriver driver;
+		WebDriverManager.chromedriver().setup();
+		
+		 driver = new ChromeDriver();
+		
+		
+		 //Accessing the website by hitting the particular url
+		driver.get("https://omayo.blogspot.in/");
+		String pageTitle= driver.getTitle();
+		System.out.println("Title of the web page: " + pageTitle);
+		
+		//Getting the input value and then verifing it by assertion command
+		
+		WebElement textinput= driver.findElement(By.xpath("//div[@id=\"HTML2\"]//div//textarea"));
+		textinput.sendKeys(("my name is shoaib ahmad."));
+		
+		//Verify it without assertion
+		
+		String Expectedvalue = "\n" + "my name is shoaib ahmad.";
+		String Actualvalue= textinput.getAttribute("value");
+		System.out.println(Actualvalue);
+		System.out.println(Expectedvalue);
+		if(Expectedvalue.equals(Actualvalue))
+		{
+			System.out.println("Text installed successfully");
+		}
+		else 
+		{
+			System.out.println("Input value does not match the expected value");
+		}
+		
+		//Getting table from the data
+		 WebElement table = driver.findElement(By.xpath("//div[@id=\"HTML30\"]//table"));
+		  
+		
+		 List<WebElement> rows = table.findElements(By.tagName("tr"));
+		
+		 WebElement thead = driver.findElement(By.xpath("//div[@id=\"HTML30\"]//table//thead//tr"));
+		 
+		 System.out.println(thead.getText());
+		for(int i=0;i<rows.size();i++)
+		{
+			WebElement datarow=rows.get(i);
+			 
+			 List<WebElement> datacells = datarow.findElements(By.tagName("td"));
+			 
+			 for (WebElement cell : datacells) {
+				
+	              System.out.print(cell.getText()+" ");
+	              
+		}
+		
+		
+			 System.out.println();
+		
+		}
+		
+		//Select hyundai button from dropdown
+		
+		
+		
+		
+		
+		 WebElement select = driver.findElement(By.xpath("//div[@id=\"HTML14\"]//div//select[@id=\"multiselect1\"]"));
+		 Select selectelement=new Select(select);
+		 selectelement.selectByVisibleText("Hyundai");
+		
+		
+		 
+		 
+		//select doc3 option 
+		
+		 WebElement select1 = driver.findElement(By.xpath("//select[contains(@name,\"SiteMap\")]"));
+		 Select selectdropdown=new Select(select1);
+		 selectdropdown.selectByVisibleText("doc 3");
+		 
+		 
+		 //Write and clear text field
+		  WebElement fielda = driver.findElement(By.xpath("//div[@id=\"HTML4\"]//div//input"));
+	       
+		  
+		  fielda.clear();
+		  
+		  fielda.sendKeys(("Hello world"));
+		  
+		  
+		  
+		  //Click on the enable button 
+		  WebElement clickbutton= driver.findElement(By.xpath("//div[@class=\"widget-content\"]//button[@id=\"but2\"]"));
+		  clickbutton.click();
+		  
+		  //try access all three buttons
+		  WebElement submit= driver.findElement(By.xpath("//button[contains(text(), 'Sub') and @name = 'samename']"));
+		  submit.click();
+		  WebElement login= driver.findElement(By.xpath("//button[contains(text(), 'Log') and @name = 'samename']"));
+		  login.click();
+		  WebElement register= driver.findElement(By.xpath("//button[contains(text(), 'Reg') and @name = 'samename']"));
+		  register.click();
+		  
+		  //Click on the button and handle alert
+		  
+		  WebElement alert= driver.findElement(By.xpath("//input[@id=\"alert2\"]"));
+		  alert.click();
+		  Alert alertn = driver.switchTo().alert();
+		  alertn.accept(); 
+	      driver.switchTo().defaultContent();
+		  
+	      //Open pop up window
+	      String mainWindowHandle = driver.getWindowHandle();
+	      WebElement popup= driver.findElement(By.xpath("//a[contains(text(), 'popup')]"));
+	      popup.click();
+	      
+	      
+	      Set<String> windowHandles = driver.getWindowHandles();
+	      for (String handle : windowHandles) {
+	            if (!handle.equals(mainWindowHandle)) 
+	            {
+	                driver.switchTo().window(handle);
+	                
+	            }
+	            
+	        WebElement poptext=driver.findElement(By.xpath("//h2"));
+	            
+	            
+	            
+	        System.out.println("Pop Element Text is:\n " + poptext.getText());
+	        driver.switchTo().window(mainWindowHandle); 
+	            
+	            //input[contains(text(),'Locate')
+	            
+	            
+	          //Select the gender and Click to get ALERT
+	            
+	        WebElement radiobutton= driver.findElement(By.xpath("   //input[@id=\"radio1\"]"));
+	        radiobutton.click(); 
+	        
+	        WebElement getalert= driver.findElement(By.xpath("      //input[@id=\"alert1\"]"));
+	        getalert.click(); 
+	        Alert alert1 = driver.switchTo().alert();
+	        alert1.accept(); 
+	        driver.switchTo().defaultContent();
+	           //Deselct and select color
+	        WebElement check1= driver.findElement(By.xpath("   //input[@id=\"checkbox1\"]"));
+	        
+	        WebElement check2= driver.findElement(By.xpath("    //input[@id=\"checkbox2\"]"));
+	        
+	        
+	        if (check1.isSelected()) {
+	            check1.click();
+	            check2.click();
+	        }
+
+	        //Read this text  from textbox
+	        WebElement readtext= driver.findElement(By.xpath("    //input[@id=\"rotb\"]"));
+	        
+	        String fieldValue = readtext.getAttribute("value");
+	       System.out.println(fieldValue);
+	       
+	       //Click on click prompt and get confirmation
+	       
+	       WebElement clickprompt= driver.findElement(By.xpath(" //input[@id=\"prompt\"]"));
+	       
+	       clickprompt.click();
+	       Alert alert2 = driver.switchTo().alert();
+	       
+	       alert2.accept(); 
+	        driver.switchTo().defaultContent();
+	       
+	       WebElement getconfirmation= driver.findElement(By.xpath("   //input[@id=\"confirm\"]"));
+	       getconfirmation.click();
+	       Alert alert3 = driver.switchTo().alert();
+	       
+	       alert3.accept(); 
+	        driver.switchTo().defaultContent();
+	        
+	        
+	        //Filling the text fields
+	        WebElement textfield1= driver.findElement(By.xpath(" //h2[contains(text(),'using class')]//following-sibling::div//input"));
+	        textfield1.sendKeys(("Shoaib Ahmad"));
+			WebElement textfield2= driver.findElement(By.xpath(" //h2[contains(text(),'element having')]//following-sibling::div//input"));
+			textfield2.sendKeys(("Zeeshan"));
+			
+			
+			//Select the car
+			
+			WebElement selectcar= driver.findElement(By.xpath("//input[@value=\"Car\"]"));
+	       selectcar.click(); 
+	       //Select bag and book 
+	       WebElement bagclick= driver.findElement(By.xpath("//input[@value=\"Bag\"]"));
+	       bagclick.click(); 
+	       WebElement bookclick= driver.findElement(By.xpath(" //input[@value=\"Book\"]"));
+	       bookclick.click(); 
+	    }
+	}
+	
+
+
+
+
+
+
+	        
+	            
+	            
+	            
+	            
+		 
+		//Verify it by assertion command
+		//Assert.assertTrue(textinput.isDisplayed(), "Element is not displayed");
+		//String expectedValue = "Expected Value";
+
+	        
+			// Get the actual value from the input element
+	      //  String actualvalue= textinput.getAttribute("value");
+	       // System.out.println(actualValue);
+	        
+	       // System.out.println(expectedValue);
+	        
+	        // Use TestNG's Assert class to perform the assertion
+	        //Assert.assertEquals(actualValue, expectedValue, "Input value does not match the expected value");
+
+
+
+	
+}
+
+
