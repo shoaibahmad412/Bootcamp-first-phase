@@ -1,0 +1,118 @@
+ package secondtest;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+
+
+public class test1 {
+
+	public test1() {
+		// TODO Auto-generated constructor stub
+	}
+	static Logger logger = Logger.getLogger("test1");
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		PropertyConfigurator.configure("Log4j.properties");
+		
+		
+
+		 WebDriver driver;
+		WebDriverManager.chromedriver().setup();
+		
+		 driver = new ChromeDriver();
+		
+		
+		 driver.get("https://omayo.blogspot.in/");
+			String pageTitle= driver.getTitle();
+			System.out.println("Title of the web page: " + pageTitle);
+		
+			
+			logger.info("This is an info message.");
+	      
+			
+			
+			
+			
+			
+			//Getting table from the data
+			 WebElement table = driver.findElement(By.xpath("//div[@id=\"HTML30\"]//table"));
+			  
+			
+			 List<WebElement> rows = table.findElements(By.tagName("tr"));
+			
+			 WebElement thead = driver.findElement(By.xpath("//div[@id=\"HTML30\"]//table//thead//tr"));
+			 
+			 System.out.println(thead.getText());
+			for(int i=0;i<rows.size();i++)
+			{
+				WebElement datarow=rows.get(i);
+				 
+				 List<WebElement> datacells = datarow.findElements(By.tagName("td"));
+				 
+				 for (WebElement cell : datacells) {
+					
+		              System.out.print(cell.getText()+" ");
+		              
+			}
+			
+			
+				 System.out.println();
+			
+			}
+			
+			//Select hyundai button from dropdown
+			
+			
+			
+			
+			
+			 WebElement select = driver.findElement(By.xpath("//div[@id=\"HTML14\"]//div//select[@id=\"multiselect1\"]"));
+			 Select selectelement=new Select(select);
+			 selectelement.selectByVisibleText("Hyundai");
+			
+			
+			 
+			 
+			//select doc3 option 
+			
+			 WebElement select1 = driver.findElement(By.xpath("//select[contains(@name,\"SiteMap\")]"));
+			 Select selectdropdown=new Select(select1);
+			 selectdropdown.selectByVisibleText("doc 3");
+			 
+			
+			
+			
+			
+			
+			
+			
+		//File Screenshot
+			
+		File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+	      
+		String destinationPath = "C:\\";
+	     try {
+	      FileUtils.copyFile(screenshot, new File(destinationPath));
+	      System.out.println("Screenshot saved: " + destinationPath);
+	     	}catch (IOException e) {
+	     	    System.out.println("Failed to save screenshot: " + e.getMessage());
+	     	}
+	     	
+	     }
+
+}
