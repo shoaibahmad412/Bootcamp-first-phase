@@ -1,0 +1,92 @@
+package org.apache.log4j;
+
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import java.io.File;
+import java.io.IOException;
+
+
+
+import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+
+
+//import com.google.j2objc.annotations.ReflectionSupport.Level;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+//import io.opentelemetry.api.logs.Logger;
+public class screenshot {
+
+	public screenshot() {
+		
+	}
+	static Logger logger = Logger.getLogger("screenshot");
+	//static Logger logger = Logger.getLogger("test1");
+	public static void main(String[] args) { 
+		
+		
+		PropertyConfigurator.configure("Log4j.properties");
+		System.setProperty("webdriver.chrome.driver", "path_to_chromedriver");
+
+		
+
+		 WebDriver driver;
+		WebDriverManager.chromedriver().setup();
+		
+		 driver = new ChromeDriver();
+		
+		
+		 driver.get("https://omayo.blogspot.in/");
+			String pageTitle= driver.getTitle();
+			System.out.println("Title of the web page: " + pageTitle);
+		
+			logger.info("Surfing the site");
+			
+			
+			
+			
+			WebElement DoubleClick = driver.findElement(By.xpath("//button[contains(text(),'Double')]"));
+	        Actions actions = new Actions(driver);
+	        actions.doubleClick(DoubleClick).perform();
+	        System.out.println("Double-clicked!");
+	       logger.info("Double Click has been pressed");
+	        
+	        
+	        Alert alert = driver.switchTo().alert();
+			alert.accept(); 
+		    driver.switchTo().defaultContent();
+		    
+		    
+		    
+			
+			
+			//File Screenshot
+				
+			File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		      
+			String destinationPath = "D:\\seleniumscreenshot\\\\screenshots2.jpg";
+		     try {
+		      FileUtils.copyFile(screenshot, new File(destinationPath));
+		      System.out.println("Screenshot saved: " + destinationPath);
+		     	}catch (IOException e) {
+		     	    System.out.println("Failed to save screenshot: " + e.getMessage());
+		     	}
+
+	}
+
+}
